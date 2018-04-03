@@ -18,7 +18,7 @@ train = pd.read_csv('Edinburgo\\A3.csv', names = ["var1", "var2", "var3", "class
 bestPrecision = 0
 
 for f in funcs:
-  for numLayers in range(8, 10):
+  for numLayers in range(8, 32, 2):
     for numIt in range(500, 1000, 50):
       xTrain = train.drop('class',axis=1)
       yTrain = train['class']
@@ -39,6 +39,7 @@ for f in funcs:
         print("~~~~>")
         bestPrecision = newPrecision
 
+print(bestPrecision)
 from matplotlib import pyplot as plt
 plt.scatter(yTest, tests)
 plt.xlabel("True Values")
