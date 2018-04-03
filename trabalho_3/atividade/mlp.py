@@ -6,53 +6,38 @@
 """
 
 import pandas as pd
+import numpy as np
+from sklearn.metrics import precision_score
+from sklearn.neural_network import MLPClassifier
+from sklearn.metrics import classification_report,confusion_matrix
+
+funcs = ['identity', 'logistic', 'tanh', 'relu']
+
 train = pd.read_csv('Edinburgo\\A3.csv', names = ["var1", "var2", "var3", "class"])
 
-#>>> from sklearn.model_selection import train_test_split
-#>>> X_train, X_test, y_train, y_test = train_test_split(iris.data, iris.target, test_size=0.4, random_state=0)
-
-
-import numpy as np
-from sklearn.metrics import average_precision_score
-
-funcs = ['tanh', 'relu']
-
-# print(train.head())
-#print train.describe().transpose()
-#print train.shape
+bestPrecision = 0
 
 for f in funcs:
-
-  for numLayers in range(8, 16):
-
-    for numIt in range(500, 2000, 50):
-
+  for numLayers in range(8, 10):
+    for numIt in range(500, 1000, 50):
       xTrain = train.drop('class',axis=1)
       yTrain = train['class']
 
-      from sklearn.neural_network import MLPClassifier
-      mlp = MLPClassifier(activation=f,hidden_layer_sizes=(numLayers),max_iter=numIt)
-      # print(mlp.fit(xTrain,yTrain))
-      mlp.fit(xTrain,yTrain)
-
-      #tests = mlp.predict(x)
-      #from sklearn.metrics import classification_report,confusion_matrix
-      #print(confusion_matrix(y,tests))
-      #print(classification_report(y,tests))
-
+      mlp = MLPClassifier(activation=f, hidden_layer_sizes=(numLayers), max_iter=numIt)
+      mlp.fit(xTrain, yTrain)
 
       prediction = pd.read_csv('Edinburgo\\B3.csv', names = ["var1", "var2", "var3", "class"])
-      from sklearn.metrics import classification_report,confusion_matrix
       xTest = prediction.drop('class',axis=1)
       yTest = prediction['class']
 
       tests = mlp.predict(xTest)
-      p = average_precision_score(yTest, tests)
-      # report = classification_report(yTest,tests)
-      # print(confusion_matrix(yTest,tests))
-      # print(classification_report(yTest,tests))
-      print(f, numLayers, numIt, '=>', p)
-      # print(report.precision)
+      newPrecision = precision_score(yTest,tests, average='micro')
+
+      if newPrecision > bestPrecision:
+        print("Precision score: {}".format(newPrecision))
+        print(f, numLayers, numIt)
+        print("~~~~>")
+        bestPrecision = newPrecision
 
 from matplotlib import pyplot as plt
 plt.scatter(yTest, tests)
