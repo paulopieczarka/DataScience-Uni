@@ -10,27 +10,8 @@ logistic 16 900
 Precision score: 0.3288590604026846
 logistic 24 500
 ~~~~>
-0.3288590604026846
-Traceback (most recent call last):
-  File ".\mlp.py", line 43, in <module>
-    from matplotlib import pyplot as plt
-  File "C:\Python36\lib\site-packages\matplotlib\pyplot.py", line 115, in <module>
-    _backend_mod, new_figure_manager, draw_if_interactive, _show = pylab_setup()
-  File "C:\Python36\lib\site-packages\matplotlib\backends\__init__.py", line 62, in pylab_setup
-    [backend_name], 0)
-  File "C:\Python36\lib\site-packages\matplotlib\backends\backend_tkagg.py", line 5, in <module>
-    from .backend_agg import FigureCanvasAgg
-  File "C:\Python36\lib\site-packages\matplotlib\backends\backend_agg.py", line 48, in <module>
-    from PIL import Image
-  File "<frozen importlib._bootstrap>", line 971, in _find_and_load
-  File "<frozen importlib._bootstrap>", line 951, in _find_and_load_unlocked
-  File "<frozen importlib._bootstrap>", line 894, in _find_spec
-  File "<frozen importlib._bootstrap_external>", line 1157, in find_spec
-  File "<frozen importlib._bootstrap_external>", line 1129, in _get_spec
-  File "<frozen importlib._bootstrap_external>", line 1268, in find_specne 1268, in find_spec                              ne 60, in _path_join
-  File "<frozen importlib._bootstrap_external>", line 60, in <listcomp>ne 60, in _path_join
-  File "<frozen importlib._bootstrap_external>", line 60, in <listcomp>KeyboardInterrupt
-PS D:\git-clones\DataScience-Uni\trabalho_3\atividade> python -u -W ignore .\mlp.pyPrecision score: 0.1894108873974646identity 8 500
+Precision score: 0.1894108873974646
+identity 8 500
 ~~~~>
 Precision score: 0.18978374347501864
 identity 8 550
