@@ -1,0 +1,41 @@
+PS D:\git-clones\DataScience-Uni\trabalho_3\atividade> python -u -W ignore .\mlp.py
+Precision score: 0.9389808145239729
+identity 9 800
+~~~~>
+Precision score: 0.9399911749829958
+logistic 9 800
+~~~~>
+Precision score: 0.9418641237616984
+tanh 9 800
+~~~~>
+Precision score: 0.9443762865642321
+relu 9 800
+~~~~>
+0.9443762865642321
+0.9540737991600148
+PS D:\git-clones\DataScience-Uni\trabalho_3\atividade> python -u -W ignore .\mlp.py
+Precision score: 0.8683435723515223
+identity 9 800
+~~~~>
+Precision score: 0.8722439358344333
+tanh 9 800
+~~~~>
+0.8722439358344333
+0.8434112139226846
+PS D:\git-clones\DataScience-Uni\trabalho_3\atividade> python -u -W ignore .\mlp.py
+Precision score: 0.8544533021015975
+identity 5 800
+~~~~>
+Precision score: 0.8691183288923854
+identity 5 900
+~~~~>
+Precision score: 0.8692531141853601
+identity 7 800
+~~~~>
+Precision score: 0.8726170000290706
+logistic 5 1100
+~~~~>
+Precision score: 0.8798726198443998
+tanh 5 900
+~~~~>
+0.8798726198443998

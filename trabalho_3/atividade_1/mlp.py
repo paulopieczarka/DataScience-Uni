@@ -16,21 +16,20 @@ funcs = ['identity', 'logistic', 'tanh', 'relu']
 train = pd.read_csv('Edinburgo\\A3.csv', names = ["var1", "var2", "var3", "class"])
 xTrain = train.drop('class',axis=1)
 yTrain = train['class']
+
 prediction = pd.read_csv('Edinburgo\\B3.csv', names = ["var1", "var2", "var3", "class"])
 xTest = prediction.drop('class',axis=1)
 yTest = prediction['class']
 
 bestPrecision = 0
+bestNetwork = MLPClassifier()
 
-
-melhorRede = MLPClassifier()
 for f in funcs:
   for numLayers in range(5, 10):
     for numIt in range(800, 1200, 100):
 
       mlp = MLPClassifier(activation=f, hidden_layer_sizes=(numLayers), max_iter=numIt)
       mlp.fit(xTrain, yTrain)
-
 
       tests = mlp.predict(xTrain)
       newPrecision = precision_score(yTrain, tests, average='macro')
@@ -40,13 +39,14 @@ for f in funcs:
         print(f, numLayers, numIt)
         print("~~~~>")
         bestPrecision = newPrecision
-        melhorRede = mlp
+        bestNetwork = mlp
 
 print(bestPrecision)
 
-tests = melhorRede.predict(xTest)
+tests = bestNetwork.predict(xTest)
 newPrecision = precision_score(yTest,tests, average='macro')
 print(newPrecision)
+
 from matplotlib import pyplot as plt
 plt.scatter(yTest, tests)
 plt.xlabel("True Values")
