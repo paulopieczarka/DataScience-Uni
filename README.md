@@ -10,6 +10,16 @@
   python -u -W ignore .\mlp.py
 ```
 
+#### XGBoost 
+
+Download xgboost files from:
+ 
+<https://www.lfd.uci.edu/~gohlke/pythonlibs/#xgboost>
+
+```
+pip install [FILE_NAME].whl
+```
+
 ### Result
 
 ```
