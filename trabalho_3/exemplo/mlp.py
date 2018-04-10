@@ -6,7 +6,7 @@
 """
 
 import pandas as pd
-train = pd.read_csv('Copenhagen\\newA.csv', names = ["var1", "var2", "var3", "class"])
+train = pd.read_csv('..\\data\\Copenhagen\\newA.csv', names = ["var1", "var2", "var3", "class"])
 
 #>>> from sklearn.model_selection import train_test_split
 #>>> X_train, X_test, y_train, y_test = train_test_split(iris.data, iris.target, test_size=0.4, random_state=0)

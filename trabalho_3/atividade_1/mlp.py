@@ -13,11 +13,11 @@ from sklearn.metrics import classification_report,confusion_matrix
 
 funcs = ['identity', 'logistic', 'tanh', 'relu']
 
-train = pd.read_csv('Edinburgo\\A3.csv', names = ["var1", "var2", "var3", "class"])
+train = pd.read_csv('..\\data\\Edinburgo\\A3.csv', names = ["var1", "var2", "var3", "class"])
 xTrain = train.drop('class',axis=1)
 yTrain = train['class']
 
-prediction = pd.read_csv('Edinburgo\\B3.csv', names = ["var1", "var2", "var3", "class"])
+prediction = pd.read_csv('..\\data\\Edinburgo\\B3.csv', names = ["var1", "var2", "var3", "class"])
 xTest = prediction.drop('class',axis=1)
 yTest = prediction['class']
 
