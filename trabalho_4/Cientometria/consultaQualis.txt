@@ -1,0 +1,39 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX bibo: <http://purl.org/ontology/bibo/>
+PREFIX bibtex: <http://purl.org/net/nknouf/ns/bibtex/>
+PREFIX prod: <http://lod.unicentro.br/LattesProduction/>
+PREFIX qualis: <http://lod.unicentro.br/QualisBrasil/>
+
+SELECT DISTINCT 
+  ?qualisYearEvaluationValue AS ?ano
+  ?qualisJournalId
+  ?qualisKnowledgeFieldId AS ?areaConhecimentoId
+  ?qualisKnowledgeFieldTitle AS ?areaConhecimento
+  ?qualisScoreValue 
+  ?grupoName
+  ?paperName
+WHERE {
+  ?evaluation   rdf:type  qualis:Evaluation .
+  ?evaluation   qualis:hasJournal  ?qualisJournal .
+  ?evaluation   qualis:hasYearEvaluation   ?qualisYearEvaluation .
+  ?evaluation   qualis:hasKnowledgeField   ?qualisKnowledgeField .
+  ?evaluation   qualis:hasScore   ?qualisScore          .
+
+  ?qualisJournal   bibo:issn   ?qualisJournalId .
+  ?qualisYearEvaluation   rdf:value   ?qualisYearEvaluationValue .
+  ?qualisScore  rdf:value   ?qualisScoreValue .
+  ?qualisKnowledgeField   dc:identifier  ?qualisKnowledgeFieldId .
+  ?qualisKnowledgeField   dc:title  ?qualisKnowledgeFieldTitle .
+
+  ?paper   rdf:type     prod:PeriodicalPaper .
+  ?paper   bibtex:hasJournal   ?paperJournal .
+  ?paper   bibtex:hasYear   ?qualisYearEvaluationValue .
+  ?paperJournal   bibo:issn   ?qualisJournalId .
+  ?paper   bibtex:hasTitle   ?paperName .
+  ?paper dc:contributor ?autor .
+  ?autor foaf:member ?grupo .
+  ?grupo foaf:name ?grupoName
+}

@@ -1,0 +1,39 @@
+PREFIX rdfs: <http://www.w3.org/2000/01/rdf-schema#>
+PREFIX rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#>
+PREFIX dc: <http://purl.org/dc/elements/1.1/>
+PREFIX foaf: <http://xmlns.com/foaf/0.1/>
+PREFIX bibo: <http://purl.org/ontology/bibo/>
+PREFIX bibtex: <http://purl.org/net/nknouf/ns/bibtex/>
+PREFIX prod: <http://lod.unicentro.br/LattesProduction/>
+PREFIX sjr: <http://lod.unicentro.br/SJR/>
+
+SELECT DISTINCT 
+  ?sjrYearEvaluationValue AS ?ano
+  ?sjrJournalId
+  ?sjrKnowledgeFieldTitle AS ?areaConhecimento
+  ?sjrScoreValue 
+  ?nomeGrupo
+  ?nomeAutor
+  ?nomePaper
+WHERE {
+  ?evaluation   rdf:type  sjr:Evaluation .
+  ?evaluation   sjr:hasJournal  ?sjrJournal .
+  ?evaluation   sjr:hasYearEvaluation   ?sjrYearEvaluation .
+  ?evaluation   sjr:hasSubAreaScopus   ?sjrKnowledgeField .
+  ?evaluation   sjr:hasScore   ?sjrScore          .
+
+  ?sjrJournal   bibo:issn   ?sjrJournalId .
+  ?sjrYearEvaluation   rdf:value   ?sjrYearEvaluationValue .
+  ?sjrScore  rdf:value   ?sjrScoreValue .
+  ?sjrKnowledgeField   dc:title  ?sjrKnowledgeFieldTitle .
+
+  ?paper   rdf:type     prod:PeriodicalPaper .
+  ?paper   bibtex:hasJournal   ?paperJournal .
+  ?paper   bibtex:hasTitle   ?nomePaper .
+  ?paper   bibtex:hasYear   ?sjrYearEvaluationValue .
+  ?paperJournal   bibo:issn   ?sjrJournalId .
+  ?paper dc:contributor ?autor .
+  ?autor foaf:member ?grupo .
+  ?autor foaf:name ?nomeAutor .
+  ?grupo foaf:name ?nomeGrupo
+}
