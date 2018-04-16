@@ -22,14 +22,20 @@ data.qualisScoreValue[data.qualisScoreValue == 'B4'] = 0.25
 data.qualisScoreValue[data.qualisScoreValue == 'B5'] = 0.10 
 data.qualisScoreValue[data.qualisScoreValue == 'C'] = 0.05 
 
+def groupSumSort(data, groupBy, sortBy, ascending=True):
+    df = data.groupby(by=groupBy).sum()
+    df = df[:-1]
+    df = df.sort_values(by=sortBy, ascending=ascending)
+    print(df)
+
 # imprimindo o score geral por ano
 input = data.drop(["grupoName", "areaConhecimentoId","areaConhecimento"], axis=1)
-print  input.groupby(['ano']).sum()
+print(input.groupby(['ano']).sum())
 
 # imprimindo o score geral por grupo
 input = data.drop(["ano","areaConhecimentoId","areaConhecimento"], axis=1)
-print input.groupby(['grupoName']).sum().sort_values('qualisScoreValue', ascending=False)
+groupSumSort(input, ['grupoName'], ['qualisScoreValue'], False)
 
 # imprimindo o score geral por area
 input = data.drop(["ano","grupoName","areaConhecimentoId"], axis=1)
-print input.groupby(['areaConhecimento']).sum().sort_values('qualisScoreValue', ascending=False)
+groupSumSort(input, ['areaConhecimento'], ['qualisScoreValue'], False)
