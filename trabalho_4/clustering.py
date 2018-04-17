@@ -49,31 +49,32 @@ def groupSumSort(data, groupBy, sortBy=False, ascending=True, top=False, func='s
 # imprimindo o score geral por ano
 input = data.drop(["grupoName", "areaConhecimentoId","areaConhecimento"], axis=1)
 df = groupSumSort(input, ['ano'])
-# graph.plot_line(
-#     df['qualisScoreValue'], 
-#     ylabel='Total Qualis Score', 
-#     xlabel='Ano'
-# )
+graph.plot_line(
+    df['qualisScoreValue'], 
+    ylabel='Total Qualis Score', 
+    xlabel='Ano',
+    title='Score geral por ano'
+)
 
 # imprimindo o score geral por grupo
 input = data.drop(["ano","areaConhecimentoId","areaConhecimento"], axis=1)
 df = groupSumSort(input, ['grupoName'], ['qualisScoreValue'], True)
-# graph.plot_barh(
-#     data=df['qualisScoreValue'], 
-#     names=df['grupoName'], 
-#     xlabel='Score',
-#     title='Score geral por grupo'
-# )
+graph.plot_barh(
+    data=df['qualisScoreValue'], 
+    names=df['grupoName'], 
+    xlabel='Score',
+    title='Score geral por grupo'
+)
 
 # imprimindo o score geral por area
 input = data.drop(["ano","grupoName","areaConhecimentoId"], axis=1)
 df = groupSumSort(input, ['areaConhecimento'], ['qualisScoreValue'], False)
-# graph.plot_barh(
-#     data=df['qualisScoreValue'], 
-#     names=df['areaConhecimento'], 
-#     xlabel='Score',
-#     title='Score geral por area'
-# )
+graph.plot_barh(
+    data=df['qualisScoreValue'], 
+    names=df['areaConhecimento'], 
+    xlabel='Score',
+    title='Score geral por area'
+)
 
 # imprimingo as 3 areas que mais publicaram
 input = data.drop(["grupoName","areaConhecimentoId"], axis=1)
@@ -84,5 +85,6 @@ for area in gp.groups:
 
 plt.xlabel('Ano de publicação')
 plt.ylabel('Total score')
+plt.title('3 areas com maior score')
 plt.legend()
 plt.show()

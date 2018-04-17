@@ -22,13 +22,14 @@ def groupSumSort(data, groupBy, sortBy=False, ascending=True, top=False, func='s
     df = data.groupby(by=groupBy)
     
     if func=='sum':
-        df = df.sum().reset_index()
+        df = df.sum()
     else:
         if func=='mean':
             df = df.mean().reset_index()
 
     df = df[:-1]
     if sortBy:
+        df = df.reset_index()
         df = df.sort_values(by=sortBy, ascending=ascending)
     if top:
         df = df.groupby(top[0]).head(top[1])
@@ -38,10 +39,12 @@ def groupSumSort(data, groupBy, sortBy=False, ascending=True, top=False, func='s
 # imprimindo o score geral por ano
 input = data.drop(["nomeGrupo","areaConhecimento"], axis=1)
 df = groupSumSort(input, ['ano'])
+print(df)
 graph.plot_line(
     df['sjrScoreValue'], 
     ylabel='Total Qualis Score', 
-    xlabel='Ano'
+    xlabel='Ano',
+    title="Score geral por ano"
 )
 
 # imprimindo o score geral por grupo
@@ -57,6 +60,7 @@ graph.plot_barh(
 # imprimindo o score geral por area
 input = data.drop(["ano","nomeGrupo"], axis=1)
 df = groupSumSort(input, ['areaConhecimento'], ['sjrScoreValue'], False)
+df = df.head(5)
 graph.plot_barh(
     data=df['sjrScoreValue'], 
     names=df['areaConhecimento'], 
@@ -67,11 +71,14 @@ graph.plot_barh(
 # imprimingo as 3 areas que mais publicaram
 input = data.drop(["nomeGrupo"], axis=1)
 df = groupSumSort(input, ['ano', 'areaConhecimento'], ['ano', 'sjrScoreValue'], [True, False])
+
 gp = df.reset_index().head(3).groupby(['areaConhecimento'])
 for area in gp.groups:
+    print(area)
     plt.plot('ano', 'sjrScoreValue', data=df[df.areaConhecimento == area], label=area)
 
 plt.xlabel('Ano de publicação')
 plt.ylabel('Total score')
+plt.title('3 areas com maior score')
 plt.legend()
 plt.show()
