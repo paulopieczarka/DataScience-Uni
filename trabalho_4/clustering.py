@@ -1,5 +1,12 @@
 """
 """
+import sys
+import os
+sys.path.append(os.path.abspath("../helpers"))
+
+import graph
+from matplotlib import pyplot as plt
+import numpy as np
 
 import pandas as pd
 data = pd.read_csv('Cientometria\\resultadoConsultaQualis.txt', names = ["ano","qualisJournalId","areaConhecimentoId","areaConhecimento","qualisScoreValue","grupoName","paperName"])
@@ -22,20 +29,38 @@ data.qualisScoreValue[data.qualisScoreValue == 'B4'] = 0.25
 data.qualisScoreValue[data.qualisScoreValue == 'B5'] = 0.10 
 data.qualisScoreValue[data.qualisScoreValue == 'C'] = 0.05 
 
-def groupSumSort(data, groupBy, sortBy, ascending=True):
+def groupSumSort(data, groupBy, sortBy=False, ascending=True):
     df = data.groupby(by=groupBy).sum()
     df = df[:-1]
-    df = df.sort_values(by=sortBy, ascending=ascending)
-    print(df)
+    if sortBy:
+        df = df.sort_values(by=sortBy, ascending=ascending)
+    return df.reset_index()
 
 # imprimindo o score geral por ano
 input = data.drop(["grupoName", "areaConhecimentoId","areaConhecimento"], axis=1)
-print(input.groupby(['ano']).sum())
+df = groupSumSort(input, ['ano'])
+graph.plot_line(
+    df['qualisScoreValue'], 
+    ylabel='Total Qualis Score', 
+    xlabel='Ano'
+)
 
 # imprimindo o score geral por grupo
 input = data.drop(["ano","areaConhecimentoId","areaConhecimento"], axis=1)
-groupSumSort(input, ['grupoName'], ['qualisScoreValue'], False)
+df = groupSumSort(input, ['grupoName'], ['qualisScoreValue'], True)
+graph.plot_barh(
+    data=df['qualisScoreValue'], 
+    names=df['grupoName'], 
+    xlabel='Score',
+    title='Score geral por grupo'
+)
 
 # imprimindo o score geral por area
 input = data.drop(["ano","grupoName","areaConhecimentoId"], axis=1)
-groupSumSort(input, ['areaConhecimento'], ['qualisScoreValue'], False)
+df = groupSumSort(input, ['areaConhecimento'], ['qualisScoreValue'], False)
+graph.plot_barh(
+    data=df['qualisScoreValue'], 
+    names=df['areaConhecimento'], 
+    xlabel='Score',
+    title='Score geral por area'
+)
