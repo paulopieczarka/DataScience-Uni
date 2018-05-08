@@ -2,7 +2,7 @@ const Papa = require('papaparse')
 const fs = require('fs')
 
 // csv file.
-let file = '../base/austin_crime.csv'
+let file = '../base/austin_crime01.csv'
 let crimesContent = fs.readFileSync(file, "utf8")
 
 // Read csv.
