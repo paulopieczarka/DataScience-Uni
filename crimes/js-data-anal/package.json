@@ -1,0 +1,10 @@
+{
+  "name": "crimes",
+  "version": "1.0.0",
+  "main": "src/index.js",
+  "license": "MIT",
+  "dependencies": {
+    "pandas-js": "^0.2.4",
+    "papaparse": "^4.4.0"
+  }
+}
