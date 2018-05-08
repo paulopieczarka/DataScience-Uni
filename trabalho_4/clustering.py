@@ -4,6 +4,9 @@ import sys
 import os
 sys.path.append(os.path.abspath("../helpers"))
 
+from plotly import plotly as py
+from plotly import graph_objs as go
+
 import graph
 from matplotlib import pyplot as plt
 import numpy as np
@@ -49,39 +52,43 @@ def groupSumSort(data, groupBy, sortBy=False, ascending=True, top=False, func='s
 # imprimindo o score geral por ano
 input = data.drop(["grupoName", "areaConhecimentoId","areaConhecimento"], axis=1)
 df = groupSumSort(input, ['ano'])
-graph.plot_line(
-    df['qualisScoreValue'], 
-    ylabel='Total Qualis Score', 
-    xlabel='Ano',
-    title='Score geral por ano'
-)
+# graph.plot_line(
+#     df['qualisScoreValue'], 
+#     ylabel='Total Qualis Score', 
+#     xlabel='Ano',
+#     title='Score geral por ano'
+# )
 
 # imprimindo o score geral por grupo
 input = data.drop(["ano","areaConhecimentoId","areaConhecimento"], axis=1)
 df = groupSumSort(input, ['grupoName'], ['qualisScoreValue'], True)
-graph.plot_barh(
-    data=df['qualisScoreValue'], 
-    names=df['grupoName'], 
-    xlabel='Score',
-    title='Score geral por grupo'
-)
+# graph.plot_barh(
+#     data=df['qualisScoreValue'], 
+#     names=df['grupoName'], 
+#     xlabel='Score',
+#     title='Score geral por grupo'
+# )
 
 # imprimindo o score geral por area
 input = data.drop(["ano","grupoName","areaConhecimentoId"], axis=1)
 df = groupSumSort(input, ['areaConhecimento'], ['qualisScoreValue'], False)
-graph.plot_barh(
-    data=df['qualisScoreValue'], 
-    names=df['areaConhecimento'], 
-    xlabel='Score',
-    title='Score geral por area'
-)
+# graph.plot_barh(
+#     data=df['qualisScoreValue'], 
+#     names=df['areaConhecimento'], 
+#     xlabel='Score',
+#     title='Score geral por area'
+# )
 
 # imprimingo as 3 areas que mais publicaram
 input = data.drop(["grupoName","areaConhecimentoId"], axis=1)
 df = groupSumSort(input, ['ano', 'areaConhecimento'], ['ano', 'qualisScoreValue'], [True, False])
 gp = df.reset_index().head(3).groupby(['areaConhecimento'])
 for area in gp.groups:
-    plt.plot('ano', 'qualisScoreValue', data=df[df.areaConhecimento == area], label=area)
+    ax.plot('ano', 'qualisScoreValue', data=df[df.areaConhecimento == area], label=area)
+
+# df = input.drop('areaConhecimento', axis=1).groupby('ano').sum()
+# print(df)
+# ax.plot('ano', 'qualisScoreValue', data=df)
 
 plt.xlabel('Ano de publicação')
 plt.ylabel('Total score')
