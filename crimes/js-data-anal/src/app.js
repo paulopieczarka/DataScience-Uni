@@ -17,7 +17,7 @@ let data = Papa.parse (crimesContent, { ...csvFormat, complete: onFileReaded})
 function onFileReaded (results) {
     
     let { data } = results
-    let districtKeys = ['A', 'AP', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I']
+    let districtKeys = ['A', 'AP', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'UK']
     let districts = []
 
     districtKeys.forEach (i => {
@@ -38,7 +38,7 @@ function onFileReaded (results) {
 
     let resultData = []
     for (let key in districts) {
-        resultData = [...districts[key]]
+        resultData = resultData.concat(districts[key])
     }
 
     saveNewDatabase ('../base/result.csv', resultData)
