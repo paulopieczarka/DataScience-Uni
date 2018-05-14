@@ -115,7 +115,7 @@ function addFinishTime (group, start, end) {
         if(x[start] !== '' && x[end] !== ''){
             let startTime = moment(x[start])
             let endTime = moment(x[end])
-            x['clearance_days'] = endTime.diff(startTime, 'days', true)
+            x['clearance_days'] = Math.round(endTime.diff(startTime, 'days', true))
         }
     })
 
