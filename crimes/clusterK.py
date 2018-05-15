@@ -41,20 +41,27 @@ class KMeans:
     def __init__(self, k):
         self.k = k          # number of clusters
         self.means = None   # means of clusters
-        
+
+     
     def classify(self, input):
         """return the index of the cluster closest to the input"""
         return min(range(self.k),
                    key=lambda i: squared_distance(input, self.means[i]))
-                   
+
     def train(self, inputs):
     
         self.means = random.sample(inputs, self.k)
         assignments = None
         
+        its = 0
+        print(self.k)
         while True:
+            
             # Find new assignments
             new_assignments = map(self.classify, inputs)
+
+            #print('KMeans.. ', its)
+            #its += 1
 
             # If no assignments have changed, we're done.
             if assignments == new_assignments:                
@@ -62,13 +69,13 @@ class KMeans:
 
             # Otherwise keep the new assignments,
             assignments = new_assignments    
+            
 
             for i in range(self.k):
                 i_points = [p for p, a in zip(inputs, assignments) if a == i]
                 # avoid divide-by-zero if i_points is empty
                 if i_points:                                
                     self.means[i] = vector_mean(i_points)    
-
 					
 def squared_clustering_errors(inputs, k):
     """finds the total squared error from k-means clustering the inputs"""
@@ -76,7 +83,6 @@ def squared_clustering_errors(inputs, k):
     clusterer.train(inputs)
     means = clusterer.means
     assignments = map(clusterer.classify, inputs)
-    
     return sum(squared_distance(input,means[cluster])
                for input, cluster in zip(inputs, assignments))
 
@@ -95,7 +101,7 @@ if __name__ == "__main__":
 
     dataset = pd.read_csv(filename)
 
-    col1 = 'district'
+    col1 = 'description'
     col2 = 'clearance_days'
 
     inputs = dataset[[col1, col2]]
@@ -109,8 +115,10 @@ if __name__ == "__main__":
     # print([[0,1],[-1,2]])
     # print(inputs[0:1])
 
-    inputs = np.array(coords)
-
+    #inputs = np.array(coords)
+    inputs = np.array(coords)[1:20,:]
+    print (inputs)
+    print (len(inputs))
     x = [row[0] for row in inputs]
     y = [row[1] for row in inputs]
     plt.scatter(x, y)
@@ -118,3 +126,28 @@ if __name__ == "__main__":
     plt.xlabel(col1)
     plt.ylabel(col2)
     plt.show()
+
+    ks = range(1, len(inputs) + 1)
+    errors = [squared_clustering_errors(list(inputs), k) for k in ks]
+    plt.plot(ks, errors)
+    plt.xticks(ks)
+    plt.xlabel("k")
+    plt.ylabel("total squared error")
+    plt.show()
+
+"""    random.seed(0) # so you get the same results as me
+    clusterer = KMeans(3)
+    clusterer.train(list(inputs))
+    print("3-means:")
+    print(clusterer.means)
+    print()
+
+    plt.plot(x, y, 'b*')
+    plt.title("distribuicao pontos")
+    plt.xlabel("x")
+    plt.ylabel("y")
+    clusterX = [row[0] for row in clusterer.means]
+    clusterY = [row[1] for row in clusterer.means]
+    plt.plot(clusterX, clusterY, 'rs')
+    plt.show()
+    """
