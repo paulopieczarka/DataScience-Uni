@@ -5,6 +5,7 @@ import re, math, random # regexes, math functions, random numbers
 import matplotlib.pyplot as plt # pyplot
 from collections import defaultdict, Counter
 from functools import partial, reduce
+import numpy as np
 
 # 
 # functions for working with vectors
@@ -19,6 +20,7 @@ def vector_subtract(v, w):
     return [v_i - w_i for v_i, w_i in zip(v,w)]
 
 def vector_sum(vectors):
+    # return np.add.reduce(vectors)
     return reduce(vector_add, vectors)
 
 def scalar_multiply(c, v):
