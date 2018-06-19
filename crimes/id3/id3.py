@@ -208,6 +208,20 @@ def pretty_print_tree(root):
     traverse(root, stack, rules)
     print(os.linesep.join(rules))
 
+def find_out(root, responses):
+    stack = []
+    rules = set()
+
+    def traverse(node, index):
+        if 'label' in node:
+            print('then '+node['label'])
+        elif 'attribute' in node:
+            for subnode_key in node['nodes']:
+                if (str(responses[index]) == subnode_key):
+                    print(' and '+subnode_key)
+                    traverse(node['nodes'][subnode_key], index+1)
+
+    traverse(root, 0)
 
 def main():
     argv = sys.argv
@@ -226,7 +240,8 @@ def main():
 
     root = id3(data, uniqs, remaining_attributes, target_attribute)
 
-    pretty_print_tree(root)
+    # pretty_print_tree(root)
+    find_out(root, [48, 84])
 
 
 if __name__ == "__main__": main()
