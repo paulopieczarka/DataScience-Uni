@@ -4,6 +4,12 @@ import sys
 import math
 import os
 
+from sklearn.tree import DecisionTreeClassifier
+from sklearn import datasets
+from IPython.display import Image  
+from sklearn import tree
+import pydotplus
+
 
 def load_csv_to_header_data(filename):
     path = os.path.normpath(os.getcwd() + filename)
@@ -206,6 +212,7 @@ def pretty_print_tree(root):
             stack.pop()
 
     traverse(root, stack, rules)
+    print(len(list(rules)))
     print(os.linesep.join(rules))
 
 def find_out(root, responses):
@@ -223,6 +230,13 @@ def find_out(root, responses):
 
     traverse(root, 0)
 
+# def display_tree(X, y):
+#     # Create decision tree classifer object
+#     clf = DecisionTreeClassifier(random_state=0)
+
+#     # Train model
+#     model = clf.fit(X, y)
+
 def main():
     argv = sys.argv
     print("Command line args are {}: ".format(argv))
@@ -236,12 +250,14 @@ def main():
     remaining_attributes = set(data['header'])
     remaining_attributes.remove(target_attribute)
 
+    # display_tree(data['rows'], list(remaining_attributes))
+
     uniqs = get_uniq_values(data)
 
     root = id3(data, uniqs, remaining_attributes, target_attribute)
 
-    # pretty_print_tree(root)
-    find_out(root, [48, 84])
+    pretty_print_tree(root)
+    # find_out(root, [60, 180])
 
 
 if __name__ == "__main__": main()
